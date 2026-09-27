@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 # for converting text data in to numerical representation
 from sklearn.preprocessing import LabelEncoder
 
-DATASET_PATH = "tourism_project/data/tourism.csv"
+DATASET_PATH = "/content/tourism_project/data/tourism.csv" 
 
 # Load the raw tourism dataset
 df = pd.read_csv(DATASET_PATH)
