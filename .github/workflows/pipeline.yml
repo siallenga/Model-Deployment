@@ -87,3 +87,23 @@ jobs:
             git pull --rebase origin main
             git push
           fi
+
+  # ---------- JOB 4: Sync to Hugging Face Space ----------
+  deploy-to-hf:
+    name: Deploy to Hugging Face Space
+    needs: model-training            # waits for Job 3 (and its model commit) to finish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main                  # fetch main fresh so the newly committed model is included
+          fetch-depth: 0
+      - name: Push to Hub
+        uses: huggingface/hub-sync@v0.3.0
+        with:
+          github_repo_id: ${{ github.repository }}
+          huggingface_repo_id: siallenga/tourism-purchase-predictor
+          hf_token: ${{ secrets.HF_TOKEN }}
+          repo_type: space
+          space_sdk: docker
+          subdirectory: tourism_project/deployment
